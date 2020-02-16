@@ -35,7 +35,7 @@ namespace Demelain.Server.Services
 
             mimeMessage.From.Add(new MailboxAddress(
                 "Contact Form",
-                "noreply@nexus.com"));
+                "noreply@demelain.com"));
 
             mimeMessage.To.Add(new MailboxAddress(
                 "Webmaster",
