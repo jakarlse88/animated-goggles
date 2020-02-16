@@ -1,7 +1,7 @@
 ﻿@inherits NavbarBase
 @using Demelain.Client.Components.Navbar.Subcomponents
 
-<nav class="mx-auto px-20 py-2 flex justify-between items-center w-screen fixed bg-white navbar__nav">
+<nav class="mx-auto z-10 px-20 py-2 flex justify-between items-center w-screen fixed bg-white navbar__nav">
 
     <a href="/" class="font-handwriting text-black font-bold text-2xl lg:text-4xl">
         <h2>@NavbarHeading</h2>
@@ -46,7 +46,7 @@
 
 @if (ShowSidebar)
 {
-    <div class="h-45 pl-10 pt-20 pb-10 inline-flex flex-col items-center nav__sidebar">
+    <div class="h-full p-10 pt-20 inline-flex flex-col nav__sidebar fixed bg-white">
         <ul class="flex flex-col justify-start">
             <NavbarLinkElement LinkText="About"
                                SectionLinkId="#AboutSection"
