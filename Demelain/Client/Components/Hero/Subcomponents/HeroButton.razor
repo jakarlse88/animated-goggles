@@ -1,0 +1,13 @@
+﻿@namespace Demelain.Client.Components.Hero.Subcomponents
+
+<button @onclick="@(() => OnClick.InvokeAsync(SectionLinkId))" class="bg-white hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 mx-4 border-b-4 border-gray-700 hover:border-gray-500 rounded">
+    @ButtonText
+</button>
+
+@code {
+
+    [Parameter] public string ButtonText { get; set; }
+    [Parameter] public string SectionLinkId { get; set; }
+    [Parameter] public EventCallback<string> OnClick { get; set; }
+
+}

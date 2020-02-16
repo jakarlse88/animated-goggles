@@ -1,0 +1,27 @@
+﻿@inherits AboutBase
+@using Demelain.Client.Components.About.Subcomponents
+
+<section class="container lg:mx-auto py-20 px-20 h-screen flex justify-center align-middle section__about" id="AboutSection">
+
+    <div class="w-1/2 flex flex-col justify-center items-start p-4">
+        <h2 class="block text-xl text-gray-500 font-mono text-left ali">public class JonKarlsen :</h2>
+        <h2 class="block text-xl text-gray-500 font-mono text-left">Uncle, Developer, BlackBelt</h2>
+        <p class="font-mono text-gray-600 text-xl text-left">{</p>
+        <p class="block">Lorem ipsum dolor sit amet, consectetur adipisicing elit. At, explicabo fugit harum minima nobis non quam rem sit unde voluptatum! A dignissimos eaque excepturi mollitia numquam porro repellendus voluptas voluptate. Aliquid animi at error iste nobis numquam optio provident quia quis repellendus saepe, tenetur voluptatem! Dignissimos distinctio eius facere iusto laudantium, nostrum nulla, omnis quae, quia soluta tempore totam veniam? A architecto atque beatae consequatur delectus dignissimos ea eveniet excepturi fugiat iusto libero magnam molestiae natus necessitatibus neque pariatur perspiciatis porro quae quas quasi reiciendis sint sit tempore ullam velit voluptate, voluptatum. Atque distinctio eos facilis optio reiciendis sapiente sed.</p>
+        <p class="font-mono text-gray-600 text-xl text-left">}</p>
+
+        <div class="my-4 self-center">
+
+            <NavLink href="https://localhost:5003/api/file/resume">
+                <AboutButton
+                    ButtonText="Resume"/>
+            </NavLink>
+        </div>
+
+    </div>
+    
+    <div class="w-1/2 flex justify-center items-center p-4">
+        <img src="media/images/jon_karlsen.jpg" alt="Stand out" class="section__about-picture"/>
+    </div>
+
+</section>

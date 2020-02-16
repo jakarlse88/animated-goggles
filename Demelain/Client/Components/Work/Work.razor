@@ -1,0 +1,25 @@
+﻿@inherits WorkBase
+@using Demelain.Client.Components.Work.Subcomponents
+
+<section class="w-screen py-20 px-20 h-auto flex flex-col justify-between items-center" id="WorkSection">
+    
+    <h2 class="text-3xl text-center mb-4">Work</h2>
+    
+    <div class="h-full flex flex-col xl:flex-row flex-wrap xl:justify-between items-center">
+    
+        @for (int i = 0; i < 3; i++)
+        {
+            <WorkCard
+                Heading="Heading"
+                Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+                Image="https://via.placeholder.com/150"
+                GitHubProjectLink="https://www.github.com/jakarlse88/"
+                TagOne="ASP.NET Core"
+                TagTwo="MVC"
+                TagThree="SQL Server"
+            />
+        }
+        
+    </div>
+
+</section>
