@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Demelain.Server.Data
 {
-    public partial class NexusContext : DbContext
+    public partial class DemelainContext : DbContext
     {
-        public NexusContext()
+        public DemelainContext()
         {
         }
 
-        public NexusContext(DbContextOptions<NexusContext> options)
+        public DemelainContext(DbContextOptions<DemelainContext> options)
             : base(options)
         {
         }

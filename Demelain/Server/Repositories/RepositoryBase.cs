@@ -13,9 +13,9 @@ namespace Demelain.Server.Repositories
     /// <typeparam name="T"></typeparam>
     public class RepositoryBase<T> : IRepositoryBase<T> where T : EntityBase
     {
-        private readonly NexusContext _context;
+        private readonly DemelainContext _context;
 
-        protected RepositoryBase(NexusContext context)
+        protected RepositoryBase(DemelainContext context)
         {
             _context = context;
         }

@@ -9,7 +9,7 @@ namespace Demelain.Server.Repositories
     /// </summary>
     public class PersonalDetailsRepository : RepositoryBase<PersonalDetails>, IPersonalDetailsRepository
     {
-        public PersonalDetailsRepository(NexusContext context) : base(context)
+        public PersonalDetailsRepository(DemelainContext context) : base(context)
         {
         }
     }

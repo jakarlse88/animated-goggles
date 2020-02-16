@@ -8,11 +8,11 @@ namespace Demelain.Server.Repositories
     /// </summary>
     public class RepositoryWrapper : IRepositoryWrapper
     {
-        private readonly NexusContext _context;
+        private readonly DemelainContext _context;
 
         private IPersonalDetailsRepository _personalDetailsRepository;
         
-        public RepositoryWrapper(NexusContext context)
+        public RepositoryWrapper(DemelainContext context)
         {
             _context = context;
         }
