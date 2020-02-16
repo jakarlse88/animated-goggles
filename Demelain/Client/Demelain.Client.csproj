@@ -15,5 +15,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Shared\Demelain.Shared.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Components\Hero\Subcomponents\HeroButton.razor" />
+  </ItemGroup>
 
 </Project>
