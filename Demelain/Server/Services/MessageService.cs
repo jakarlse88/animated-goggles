@@ -73,7 +73,7 @@ namespace Demelain.Server.Services
             var templatePath =
                 _webHostEnvironment.ContentRootPath +
                 Path.DirectorySeparatorChar +
-                "Models" +
+                "Assets" +
                 Path.DirectorySeparatorChar +
                 "Templates" +
                 Path.DirectorySeparatorChar +

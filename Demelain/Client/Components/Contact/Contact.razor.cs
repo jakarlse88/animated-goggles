@@ -22,7 +22,7 @@ namespace Demelain.Client.Components.Contact
                 Message = _contactFormInput.Message
             };
 
-            await HttpClient.PostJsonAsync("https://localhost:5002/api/contact", contactInfo);
+            await HttpClient.PostJsonAsync("api/message", contactInfo);
         }
     }
 }
