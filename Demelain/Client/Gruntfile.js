@@ -1,4 +1,5 @@
-﻿// https://medium.com/@georgemr/tailwind-css-in-blazor-asp-net-core-app-with-grunt-24a627cd9f3a
+/// <binding BeforeBuild='compile-css' />
+// https://medium.com/@georgemr/tailwind-css-in-blazor-asp-net-core-app-with-grunt-24a627cd9f3a
 
 module.exports = function (grunt) {
     grunt.initConfig({
@@ -26,7 +27,7 @@ module.exports = function (grunt) {
                 processors: [
                     require('tailwindcss')(),
                     require('autoprefixer') // add vendor prefixes
-                ]
+                ] 
             },
             dist: {
                 expand: true,
