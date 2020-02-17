@@ -10,8 +10,8 @@
  * ------------------------------
  */
 
-#blazor-error-ui { 
-    background: orange; 
+#blazor-error-ui {
+    background: orange;
     bottom: 0;
     box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
     display: none;
@@ -74,6 +74,7 @@
         opacity: 1;
     }
 }
+
 @keyframes slide-in-top {
     0% {
         -webkit-transform: translateY(-1000px);
@@ -218,19 +219,14 @@
     background-position: center;
 }
 
-.fa-github:hover {
-    -webkit-animation: vibrate-1 0.3s linear 1 forwards;
-    animation: vibrate-1 0.3s linear 1 forwards;
-}
-
 .worksection__card {
     border: 1px solid rgba(160, 174, 192, 0.5);
 }
 
-    .worksection__card:hover {
-        -webkit-animation: shadow-drop-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-        animation: shadow-drop-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-    }
+.worksection__card:hover {
+    -webkit-animation: shadow-drop-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    animation: shadow-drop-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
 
 /*
  * ------------------------------
