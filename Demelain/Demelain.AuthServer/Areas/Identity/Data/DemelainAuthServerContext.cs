@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Demelain.AuthServer.Areas.Identity.Data;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Demelain.AuthServer.Data
+namespace Demelain.AuthServer.Areas.Identity.Data
 {
     public class DemelainAuthServerContext : IdentityDbContext<DemelainAuthServerUser>
     {

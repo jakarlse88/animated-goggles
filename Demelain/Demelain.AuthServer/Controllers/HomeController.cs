@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using Demelain.AuthServer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using AuthServer.Models;
 
-namespace AuthServer.Controllers
+namespace Demelain.AuthServer.Controllers
 {
     public class HomeController : Controller
     {

@@ -1,6 +1,4 @@
-using System;
-
-namespace AuthServer.Models
+namespace Demelain.AuthServer.Models
 {
     public class ErrorViewModel
     {
