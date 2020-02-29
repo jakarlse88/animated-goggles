@@ -36,7 +36,7 @@ namespace Demelain.Server
             });
             
             services.AddDbContext<DemelainContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("NexusReferential")));
+                options.UseSqlServer(Configuration.GetConnectionString("DemelainContextConnection")));
 
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 
@@ -48,11 +48,25 @@ namespace Demelain.Server
             services.AddSwaggerGen(c =>
                 c.SwaggerDoc("v0.1.0", new OpenApiInfo { Title = "Nexus API", Version = "v0.1.0" })
             );
+
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = "http://localhost:5001";
+                    options.RequireHttpsMetadata = false;
+
+                    options.Audience = "demelain_server";
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                serviceScope.ServiceProvider.GetRequiredService<DemelainContext>().Database.Migrate();
+            }
+
             app.UseResponseCompression();
 
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v0.1.0/swagger.json", "Nexus API v0.1.0"));
@@ -81,6 +95,7 @@ namespace Demelain.Server
                     .WithHeaders(HeaderNames.AccessControlAllowOrigin, "*")
             );
 
+            app.UseAuthentication();
             app.UseAuthorization();
             
             app.UseEndpoints(endpoints =>
