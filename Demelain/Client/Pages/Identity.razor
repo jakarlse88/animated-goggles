@@ -1,0 +1,28 @@
+﻿@page "/identity"
+@using Demelain.Client.Services
+@inject DemelainAuthenticationStateProvider AuthState
+
+<h1>Hello, @Username!</h1>
+
+<p>Welcome to the identity experiment.</p>
+
+<p><a href="/Logout">Logout</a></p>
+
+@code {
+
+    private string Username { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var state = await AuthState.GetAuthenticationStateAsync();
+
+        Username =
+            state.User.Claims
+                .Where(c => c.Type.Equals("name"))
+                .Select(c => c.Value)
+                .FirstOrDefault() ?? string.Empty;
+
+        await base.OnInitializedAsync();
+    }
+
+}

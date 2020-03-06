@@ -1,8 +1,11 @@
-using System.Linq;
-using System.Reflection;
-using Demelain.AuthServer.Areas.Identity.Data;
-using IdentityServer4.EntityFramework.DbContexts;
-using IdentityServer4.EntityFramework.Mappers;
+﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+
+
+using Demelain.AuthServer.Data;
+using Demelain.AuthServer.Models;
+using Demelain.AuthServer.Services;
+using IdentityServer4.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -15,130 +18,109 @@ namespace Demelain.AuthServer
 {
     public class Startup
     {
+        public IWebHostEnvironment Environment { get; }
         public IConfiguration Configuration { get; }
-        public static IConfiguration StaticConfiguration { get; private set; }
-        
-        public Startup(IConfiguration configuration)
+
+        public Startup(IWebHostEnvironment environment, IConfiguration configuration)
         {
+            Environment = environment;
             Configuration = configuration;
-            StaticConfiguration = configuration;
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
-            
             services.AddControllersWithViews();
 
-            services.AddDbContext<DemelainAuthServerContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DemelainAuthServerContextConnection")));
+            // configures IIS out-of-proc settings (see https://github.com/aspnet/AspNetCore/issues/14882)
+            services.Configure<IISOptions>(iis =>
+            {
+                iis.AuthenticationDisplayName = "Windows";
+                iis.AutomaticAuthentication = false;
+            });
 
-            services.AddDefaultIdentity<DemelainAuthServerUser>(
-                    options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<DemelainAuthServerContext>()
+            // configures IIS in-proc settings
+            services.Configure<IISServerOptions>(iis =>
+            {
+                iis.AuthenticationDisplayName = "Windows";
+                iis.AutomaticAuthentication = false;
+            });
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
             
-            services.AddIdentityServer()
-                .AddConfigurationStore(options =>
+            var builder = services.AddIdentityServer(options =>
                 {
-                    options.ConfigureDbContext = builder =>
-                    {
-                        builder.UseSqlServer(
-                            Configuration.GetConnectionString("DemelainAuthServerContextConnection"),
-                            sql => sql.MigrationsAssembly(migrationsAssembly));
-                    };
+                    // Events
+                    options.Events.RaiseErrorEvents = true;
+                    options.Events.RaiseInformationEvents = true;
+                    options.Events.RaiseFailureEvents = true;
+                    options.Events.RaiseSuccessEvents = true;
+                    
+                    // User interaction
+                    options.UserInteraction.LoginUrl = "http://localhost:5002/login";
+                    options.UserInteraction.ErrorUrl = "http://localhost:5002/error";
+                    options.UserInteraction.LogoutUrl = "http://localhost:5002/logout";
+//                    options.UserInteraction.LoginReturnUrlParameter = "http://localhost:5002/";
                 })
-                .AddOperationalStore(options =>
-                {
-                    options.ConfigureDbContext = builder =>
-                    {
-                        builder.UseSqlServer(
-                            Configuration.GetConnectionString("DemelainAuthServerContextConnection"),
-                            sql => sql.MigrationsAssembly(migrationsAssembly));
-                    };
+                .AddInMemoryIdentityResources(Config.Ids)
+                .AddInMemoryApiResources(Config.Apis)
+                .AddInMemoryClients(Config.Clients)
+                .AddAspNetIdentity<ApplicationUser>();
+            
+            // not recommended for production - you need to store your key material somewhere secure
+            builder.AddDeveloperSigningCredential();
 
-                    options.EnableTokenCleanup = true;
-                    options.TokenCleanupInterval = 30;
-                })
-                .AddAspNetIdentity<DemelainAuthServerUser>();
+//            builder.Services.AddTransient<IReturnUrlParser, DemelainReturnUrlParser>();
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(policy =>
+                {
+                    policy.AllowAnyHeader();
+                    policy.AllowAnyMethod();
+                    policy.WithOrigins("http://localhost:5002");
+                    policy.AllowCredentials();
+                });
+            });
+            
+            services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    // register your IdentityServer with Google at https://console.developers.google.com
+                    // enable the Google+ API
+                    // set the redirect URI to http://localhost:5000/signin-google
+                    options.ClientId = "copy client ID from Google here";
+                    options.ClientSecret = "copy client secret from Google here";
+                });
+
+            services.AddTransient<IReturnUrlParser, DemelainReturnUrlParser>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            if (env.IsDevelopment())
+            if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-            
-            InitialiseDatabase(app);
 
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            
+            app.UseCors();
+            
             app.UseRouting();
-
+            app.UseIdentityServer();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    "deault",
+                    "{controller}/{action}");
             });
-        }
-
-        // This method initialises the operational/config database for IdentityServer4
-        private void InitialiseDatabase(IApplicationBuilder app)
-        {
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-            {
-                serviceScope.ServiceProvider.GetRequiredService<DemelainAuthServerContext>().Database.Migrate();
-                
-                serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
-                
-                using (var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>())
-                {
-                    context.Database.Migrate();
-
-                    if (!context.Clients.Any())
-                    {
-                        foreach (var client in Config.GetClients())
-                        {
-                            context.Clients.Add(client.ToEntity());
-                        }
-
-                        context.SaveChanges();
-                    }
-
-                    if (!context.IdentityResources.Any())
-                    {
-                        foreach (var resource in Config.GetIdentityResources())
-                        {
-                            context.IdentityResources.Add(resource.ToEntity());
-                        }
-
-                        context.SaveChanges();
-                    }
-
-                    if (!context.ApiResources.Any())
-                    {
-                        foreach (var resource in Config.GetApiResourcesResources())
-                        {
-                            context.ApiResources.Add(resource.ToEntity());
-                        }
-
-                        context.SaveChanges();
-                    }
-                }
-            }
         }
     }
 }

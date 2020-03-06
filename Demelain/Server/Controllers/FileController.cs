@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Demelain.Server.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Demelain.Server.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class FileController : ControllerBase
     {

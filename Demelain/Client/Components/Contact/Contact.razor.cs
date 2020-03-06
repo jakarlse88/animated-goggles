@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Demelain.Client.Models;
+using Demelain.Client.Models.InputModels;
 using Microsoft.AspNetCore.Components;
 
 namespace Demelain.Client.Components.Contact

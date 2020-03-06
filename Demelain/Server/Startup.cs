@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
+using System.Text;
 using Demelain.Server.Data;
 using Demelain.Server.Repositories;
 using Demelain.Server.Services;
@@ -11,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
+using Demelain.Shared.Models;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Demelain.Server
 {
@@ -34,6 +37,9 @@ namespace Demelain.Server
                 opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
                     new[] { "application/octet-stream" });
             });
+
+            // Facilitate the passing of client app configuration from server 
+            services.AddSingleton(Configuration.GetSection("ClientAppSettings").Get<ClientAppSettings>());
             
             services.AddDbContext<DemelainContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DemelainContextConnection")));
@@ -56,6 +62,18 @@ namespace Demelain.Server
                     options.RequireHttpsMetadata = false;
 
                     options.Audience = "demelain_server";
+                    
+//                    options.TokenValidationParameters = new TokenValidationParameters
+//                    {
+//                        ValidateIssuer = true,
+//                        ValidateAudience = true,
+//                        ValidateLifetime = true,
+//                        ValidateIssuerSigningKey = true,
+//                        ValidIssuer = Configuration["JwtIssuer"],
+//                        ValidAudience = Configuration["JwtAudience"],
+//                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtSecurityKey"]))
+//                    };
+                    
                 });
         }
 

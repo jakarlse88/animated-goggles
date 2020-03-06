@@ -1,0 +1,65 @@
+﻿@page "/login"
+@using System.Text
+@using System.Text.Json
+@using Demelain.Client.Models.InputModels
+@using IdentityModel.OidcClient
+@using Sotsera.Blazor.Oidc
+
+<EditForm Model="@InputModel" OnValidSubmit="@HandleValidSubmit" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"> 
+    <DataAnnotationsValidator/> 
+  <div class="w-full mb-4"> 
+      <InputText @bind-Value="@InputModel.Username" placeholder="Email" class="form-control appearance-none bg-transparent border-b border-b-2 border-gray-500 focus:border-blue-700 py-2 w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"/> 
+      <ValidationMessage For="@(() => InputModel.Username)" class="text-red-500"/> 
+  </div> 
+  <div class="w-full mb-4"> 
+      <InputText @bind-Value="@InputModel.Password" id="Password" placeholder="Name" class="form-control appearance-none bg-transparent border-b border-b-2 border-gray-500 focus:border-blue-700 py-2 w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"/> 
+      <ValidationMessage For="@(() => InputModel.Password)" class="text-red-500"/> 
+  </div> 
+  <div class="w-full mb-4"> 
+      <InputText @bind-Value="@InputModel.ReturnUrl" id="ReturnUrl" placeholder="Name" class="form-control appearance-none bg-transparent border-b border-b-2 border-gray-500 focus:border-blue-700 py-2 w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"/> 
+      <ValidationMessage For="@(() => InputModel.ReturnUrl)" class="text-red-500"/> 
+  </div> 
+    <button type="submit" class="confetti-button block mx-auto bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"> 
+        <i class="fas fa-paper-plane fa-2xl"></i> 
+        Send 
+    </button> 
+</EditForm> 
+
+@* <AppAuthorization />  *@
+
+@code {
+
+    [Inject] private OidcHttpClient OidcClient { get; set; }
+    private LoginInputModel InputModel { get; set; } = new LoginInputModel();
+
+    protected override void OnInitialized()
+    {
+        InputModel.ReturnUrl = "http://localhost:5002/connect/authorize/callback";
+        
+        base.OnInitialized();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+//        var json = JsonSerializer.Serialize(InputModel);
+//        d
+//        var requestMessage = new HttpRequestMessage()
+//        {
+//            Method = new HttpMethod("POST"),
+//            RequestUri = new Uri("http://localhost:5000/api/authentication"),
+//            Content = new StringContent(json, Encoding.UTF8),
+//        };
+//        
+//        requestMessage.Content.Headers.ContentType = 
+//            new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+//
+//        var response = await HttpClient.SendAsync(requestMessage);
+//
+//        var responseStatusCode = response.StatusCode;
+//
+//        var responseBody = await response.Content.ReadAsStringAsync();
+
+        var response = await OidcClient.PostJsonAsync<LoginResult>("http://localhost:5000/api/authentication", InputModel);
+    }
+
+}
