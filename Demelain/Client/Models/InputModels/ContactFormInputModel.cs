@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Demelain.Client.Models
+namespace Demelain.Client.Models.InputModels
 {
     public class ContactFormInputModel
     {

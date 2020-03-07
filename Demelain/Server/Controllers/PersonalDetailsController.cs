@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Demelain.Server.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Demelain.Server.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class PersonalDetailsController : ControllerBase
     {
         private readonly IPersonalDetailsService _personalDetailsService;
@@ -36,6 +37,13 @@ namespace Demelain.Server.Controllers
                 return Ok(result);
 
             return NotFound();
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Test()
+        {
+            return new JsonResult("Ok");
         }
     }
 }

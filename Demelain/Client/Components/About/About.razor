@@ -1,7 +1,7 @@
 ﻿@inherits AboutBase
 @using Demelain.Client.Components.About.Subcomponents
 
-<section class="container lg:mx-auto py-20 px-20 h-screen flex justify-center align-middle section__about" id="AboutSection">
+<section class="container mx-auto py-20 px-20 lg:min-h-screen h-auto flex justify-center align-middle section__about" id="AboutSection">
 
     <div class="w-1/2 flex flex-col justify-center items-start p-4">
         <h2 class="block text-xl text-gray-500 font-mono text-left ali">public class JonKarlsen :</h2>
@@ -12,7 +12,7 @@
 
         <div class="my-4 self-center">
 
-            <NavLink href="https://localhost:5003/api/file/resume">
+            <NavLink @onclick="@GetResumeFileFromServerAsync">
                 <AboutButton
                     ButtonText="Resume"/>
             </NavLink>

@@ -1,10 +1,37 @@
-﻿<Router AppAssembly="@typeof(Program).Assembly">
+﻿@using Sotsera.Blazor.Oidc
+@inject IUserManager UserManager
+@inject IToaster Toaster
+
+<ToastContainer/>
+
+<Router AppAssembly="@typeof(Program).Assembly" AdditionalAssemblies="new[] { typeof(IUserManager).Assembly }">
     <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+            <NotAuthorized>
+                <p>This page requires authorization.</p>
+            </NotAuthorized>
+            <Authorizing>
+                <div class="h-screen w-screen flex flex-col justify-center align-center">
+                    <h2>Authorizing, please wait</h2>
+                </div>
+            </Authorizing>
+        </AuthorizeRouteView>
     </Found>
     <NotFound>
-        <LayoutView Layout="@typeof(MainLayout)">
-            <p>Sorry, there's nothing at this address.</p>
-        </LayoutView>
+        <CascadingAuthenticationState>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <p>Sorry, there's nothing at this address.</p>
+            </LayoutView>
+        </CascadingAuthenticationState>
     </NotFound>
 </Router>
+
+@code
+{
+
+    protected override void OnInitialized()
+    {
+        UserManager.OnError += message => Toaster.Error(message);
+    }
+
+}
