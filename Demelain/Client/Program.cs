@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Text;
 using Blazored.LocalStorage;
-using Demelain.Client.Services;
 using Microsoft.AspNetCore.Blazor.Hosting;
-using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Sotsera.Blazor.Oidc;
@@ -23,21 +19,6 @@ namespace Demelain.Client
             builder.RootComponents.Add<App>("app");
 
             builder.Services.AddBlazoredLocalStorage();
-
-            // builder.Services.AddOidc(new Uri("https://demo.identityserver.io"), (settings, siteUri) =>
-            // {
-            //     settings.UseDefaultCallbackUris(siteUri);
-            //     settings.UseRedirectToCallerAfterAuthenticationRedirect();
-            //     settings.UseRedirectToCallerAfterLogoutRedirect();
-            //     settings.UseDemoFlow().Code(); // Just for this demo: allows to quickly change to one of the supported flows
-            //     settings.Scope = "openid profile email api";
-            //
-            //     settings.ClientId = "interactive.public";
-            //
-            //     settings.MinimumLogeLevel = LogLevel.Information;
-            //     settings.StorageType = StorageType.SessionStorage;
-            //     settings.InteractionType = InteractionType.Popup;
-            // });
 
             builder.Services.AddOidc(new Uri("http://localhost:5000"), (settings, siteUri) =>
                 {
