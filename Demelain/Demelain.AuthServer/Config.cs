@@ -39,7 +39,7 @@ namespace Demelain.AuthServer
                     RequireConsent = false,
                     
                     RedirectUris = {"http://localhost:5002/oidc/callbacks/authentication-redirect"},
-                    PostLogoutRedirectUris = {"http://localhost:5002"},
+                    PostLogoutRedirectUris = {"http://localhost:5002/"},
 
                     AllowedCorsOrigins = {"http://localhost:5000", "http://localhost:5002"},
 

@@ -43,7 +43,8 @@ namespace Demelain.Client
                 {
                     settings.UseDefaultCallbackUris(siteUri);
                     settings.UseRedirectToCallerAfterAuthenticationRedirect();
-                    settings.UseRedirectToCallerAfterLogoutRedirect();
+                    // settings.UseRedirectToCallerAfterLogoutRedirect();
+                    settings.LogoutRedirectCallbackUri = "http://localhost:5002/";
                     
                     settings.ClientId = "demelain_client";
                     settings.ResponseType = "code";
