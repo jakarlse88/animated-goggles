@@ -61,10 +61,10 @@ namespace Demelain.AuthServer
                     options.Events.RaiseSuccessEvents = true;
                     
                     // User interaction
-                    options.UserInteraction.LoginUrl = "http://localhost:5002/login";
-                    options.UserInteraction.ErrorUrl = "http://localhost:5002/error";
-                    options.UserInteraction.LogoutUrl = "http://localhost:5002/logout";
-//                    options.UserInteraction.LoginReturnUrlParameter = "http://localhost:5002/";
+                    options.UserInteraction.LoginUrl = "http://localhost:5000/account/login";
+                    options.UserInteraction.ErrorUrl = "http://localhost:5000/home/error";
+                    options.UserInteraction.LogoutUrl = "http://localhost:5000/account/logout";
+                    // options.UserInteraction.LoginReturnUrlParameter = "http://localhost:5000/";
                 })
                 .AddInMemoryIdentityResources(Config.Ids)
                 .AddInMemoryApiResources(Config.Apis)

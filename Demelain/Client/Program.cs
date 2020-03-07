@@ -24,25 +24,39 @@ namespace Demelain.Client
 
             builder.Services.AddBlazoredLocalStorage();
 
-            builder.Services.AddOidc(new Uri("https://demo.identityserver.io"), (settings, siteUri) =>
-            {
-                settings.UseDefaultCallbackUris(siteUri);
-                settings.UseRedirectToCallerAfterAuthenticationRedirect();
-                settings.UseRedirectToCallerAfterLogoutRedirect();
-                settings.UseDemoFlow().Code(); // Just for this demo: allows to quickly change to one of the supported flows
-                settings.Scope = "openid profile email api";
+            // builder.Services.AddOidc(new Uri("https://demo.identityserver.io"), (settings, siteUri) =>
+            // {
+            //     settings.UseDefaultCallbackUris(siteUri);
+            //     settings.UseRedirectToCallerAfterAuthenticationRedirect();
+            //     settings.UseRedirectToCallerAfterLogoutRedirect();
+            //     settings.UseDemoFlow().Code(); // Just for this demo: allows to quickly change to one of the supported flows
+            //     settings.Scope = "openid profile email api";
+            //
+            //     settings.ClientId = "interactive.public";
+            //
+            //     settings.MinimumLogeLevel = LogLevel.Information;
+            //     settings.StorageType = StorageType.SessionStorage;
+            //     settings.InteractionType = InteractionType.Popup;
+            // });
 
-                settings.MinimumLogeLevel = LogLevel.Information;
-                settings.StorageType = StorageType.SessionStorage;
-                settings.InteractionType = InteractionType.Popup;
-            });
+            builder.Services.AddOidc(new Uri("http://localhost:5000"), (settings, siteUri) =>
+                {
+                    settings.UseDefaultCallbackUris(siteUri);
+                    settings.UseRedirectToCallerAfterAuthenticationRedirect();
+                    settings.UseRedirectToCallerAfterLogoutRedirect();
+                    
+                    settings.ClientId = "demelain_client";
+                    settings.ResponseType = "code";
+                    
+                    settings.Scope = "openid profile demelain_server";
+                    
+                    settings.MinimumLogeLevel = LogLevel.Information;
+                    settings.StorageType = StorageType.SessionStorage;
+                    settings.InteractionType = InteractionType.Popup;
+            
+                });
 
-            // builder.Services.AddOptions();
             builder.Services.AddAuthorizationCore(options => {});
-            // builder.Services.AddBlazoredLocalStorage();
-            // builder.Services.AddScoped<DemelainAuthenticationStateProvider>();
-            // builder.Services.AddScoped<AuthenticationStateProvider>(provider =>
-            //     provider.GetRequiredService<DemelainAuthenticationStateProvider>());
             
             builder.Services.AddToaster(c => c.PositionClass = Defaults.Classes.Position.BottomRight);
             

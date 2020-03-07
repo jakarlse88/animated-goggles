@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
+using Demelain.AuthServer.Controllers.Account;
 using Demelain.AuthServer.Models;
-using Demelain.AuthServer.Quickstart.Account;
 using IdentityServer4.Events;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Cors;

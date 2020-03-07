@@ -11,7 +11,12 @@ namespace Demelain.AuthServer
     public static class Config
     {
         public static IEnumerable<IdentityResource> Ids =>
-            new List<IdentityResource>();
+            new List<IdentityResource>
+            {
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile(),
+                new IdentityResources.Email()
+            };
 
 
         public static IEnumerable<ApiResource> Apis =>
@@ -27,17 +32,14 @@ namespace Demelain.AuthServer
                 {
                     ClientId = "demelain_client",
                     ClientName = "Demelain Blazor/WASM Client",
+                    
                     AllowedGrantTypes = GrantTypes.Code,
                     RequirePkce = true,
-
-                    ClientSecrets =
-                    {
-//                        new Secret(Startup.StaticConfiguration["Clients:Demelain-WASM:Secret"].Sha256())
-                        new Secret("secret".Sha256())
-                    },
-
-                    RedirectUris = {"http://localhost:5001/signin"},
-                    PostLogoutRedirectUris = {"http://localhost:5001/signout-callback"},
+                    RequireClientSecret = false,
+                    RequireConsent = false,
+                    
+                    RedirectUris = {"http://localhost:5002/oidc/callbacks/authentication-redirect"},
+                    PostLogoutRedirectUris = {"http://localhost:5002"},
 
                     AllowedCorsOrigins = {"http://localhost:5000", "http://localhost:5002"},
 
