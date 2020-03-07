@@ -6,7 +6,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <RazorLangVersion>3.0</RazorLangVersion>
     <Nullable>disable</Nullable>
-    <!-- <BlazorLinkOnBuild>false</BlazorLinkOnBuild> -->
+    <BlazorLinkOnBuild>false</BlazorLinkOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,9 +19,13 @@
     <PackageReference Include="Microsoft.AspNetCore.Blazor.HttpClient" Version="3.2.0-preview1.20073.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="3.1.2" />
     <PackageReference Include="Sotsera.Blazor.Oidc" Version="1.0.0-alpha-8" />
+    <PackageReference Include="Sotsera.Blazor.Toaster" Version="3.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared\Demelain.Shared.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Components\AppAuthorization\AppAuthorization.razor" />
   </ItemGroup>
 
 

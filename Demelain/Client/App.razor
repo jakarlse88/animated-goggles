@@ -1,30 +1,8 @@
-﻿@* <Router AppAssembly="@typeof(Program).Assembly"> *@
-@*     <Found Context="routeData"> *@
-@*         <AuthorizedRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)"/> *@
-@*     </Found> *@
-@*     <NotFound> *@
-@*         <CascadingAuthenticationState> *@
-@*             <LayoutView Layout="@typeof(MainLayout)"> *@
-@*                 <p>Sorry, there's nothing at this address.</p> *@
-@*             </LayoutView> *@
-@*         </CascadingAuthenticationState> *@
-@*     </NotFound> *@
-@* </Router> *@
-
-@* <Router AppAssembly="@typeof(Program).Assembly"> *@
-@*     <Found Context="routeData"> *@
-@*         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" /> *@
-@*     </Found> *@
-@*     <NotFound> *@
-@*         <LayoutView Layout="@typeof(MainLayout)"> *@
-@*             <p>Sorry, there's nothing at this address.</p> *@
-@*         </LayoutView> *@
-@*     </NotFound> *@
-@* </Router> *@
-
-@using Microsoft.AspNetCore.Components.Authorization
-@using Sotsera.Blazor.Oidc
+﻿@using Sotsera.Blazor.Oidc
 @inject IUserManager UserManager
+@inject IToaster Toaster
+
+<ToastContainer/>
 
 <Router AppAssembly="@typeof(Program).Assembly" AdditionalAssemblies="new[] { typeof(IUserManager).Assembly }">
     <Found Context="routeData">
@@ -45,3 +23,13 @@
         </CascadingAuthenticationState>
     </NotFound>
 </Router>
+
+@code
+{
+
+    protected override void OnInitialized()
+    {
+        UserManager.OnError += message => Toaster.Error(message);
+    }
+
+}

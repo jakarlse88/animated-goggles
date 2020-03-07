@@ -1,65 +1,55 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using Sotsera.Blazor.Oidc;
 
 namespace Demelain.Client.Services
 {
-    // Source: https://chrissainty.com/securing-your-blazor-apps-authentication-with-clientside-blazor-using-webapi-aspnet-core-identity/
-    /// <summary>
-    /// This method is called by the CascadingAuthenticationState component to
-    /// determine whether the current user is authenticated or not. 
-    /// </summary>
     public class DemelainAuthenticationStateProvider : AuthenticationStateProvider
     {
-        [Inject] private HttpClient HttpClient { get; set; }
-        [Inject] private ILocalStorageService LocalStorageService { get; set; }
+        private readonly OidcHttpClient _oidcHttpClient;
+        private readonly ILocalStorageService _localStorageService;
+
+        public DemelainAuthenticationStateProvider(OidcHttpClient oidcHttpClient,
+            ILocalStorageService localStorageService)
+        {
+            _oidcHttpClient = oidcHttpClient;
+            _localStorageService = localStorageService;
+        }
 
         /// <summary>
-        /// This methods checks to see whether there is an auth token in local storage.
-        /// If no, returns a new AuthenticationState with a blank claims principal (ie. user is not auth'd.)
-        /// If yes, retrieve it and set default auth header for HttpClient. Then return a new
-        /// AuthenticationState with a new claims principal containing the claims from the token. 
+        /// Determines whether or not the current user is authenticated.
         /// </summary>
         /// <returns></returns>
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            var savedToken = await LocalStorageService.GetItemAsync<string>("authToken");
+            var savedToken = await _localStorageService.GetItemAsync<string>("authToken");
 
             if (string.IsNullOrWhiteSpace(savedToken))
             {
-                return new AuthenticationState(
-                    new ClaimsPrincipal(
-                        new ClaimsIdentity()));
+                return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
             }
 
-            HttpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("bearer", savedToken);
+            _oidcHttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", savedToken);
 
             return new AuthenticationState(
-                new ClaimsPrincipal(
-                    new ClaimsIdentity(
-                        ParseClaimsFromJwt(savedToken),
-                        "jwt")));
+                new ClaimsPrincipal(new ClaimsIdentity(ParseClaimsFromJwt(savedToken), "jwt")));
         }
 
         /// <summary>
-        /// Marks a user as authenticated.
+        /// Marks a user as authenticated, and invokes NotifyAuthenticationStateChanged().
         /// </summary>
         /// <param name="email"></param>
-        public void MarkUserAuthenticated(string email)
+        public void MarkUserAsAuthenticated(string email)
         {
             var authenticatedUser =
-                new ClaimsPrincipal(
-                    new ClaimsIdentity(
-                        new[] {new Claim(ClaimTypes.Name, email)}, "apiauth"));
+                new ClaimsPrincipal(new ClaimsIdentity(new[] {new Claim(ClaimTypes.Name, email)}, "apiauth"));
 
             var authState = Task.FromResult(new AuthenticationState(authenticatedUser));
             
@@ -67,19 +57,17 @@ namespace Demelain.Client.Services
         }
 
         /// <summary>
-        /// Marks a user as logged out.
+        /// Marks a user as logged out, and invokes NotifyAuthenticationStateChanged().
         /// </summary>
-        public void MarkUserLoggedOut()
+        public void MarkUserAsLoggedOut()
         {
-            var anonymousUser = 
-                new ClaimsPrincipal(
-                    new ClaimsIdentity());
+            var anonymousUser = new ClaimsPrincipal(new ClaimsIdentity());
 
             var authState = Task.FromResult(new AuthenticationState(anonymousUser));
             
             NotifyAuthenticationStateChanged(authState);
         }
-        
+
         private IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
         {
             var claims = new List<Claim>();

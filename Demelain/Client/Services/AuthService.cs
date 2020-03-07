@@ -3,24 +3,25 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
-using Demelain.Client.Models;
 using Demelain.Client.Models.InputModels;
 using Demelain.Client.Models.ResultModels;
 using Demelain.Client.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using Demelain.Client.Services;
+using Sotsera.Blazor.Oidc;
 
 namespace Demelain.Client.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly HttpClient _httpClient;
+        private readonly OidcHttpClient _oidcHttpClient;
         private readonly AuthenticationStateProvider _authenticationStateProvider;
         private readonly ILocalStorageService _localStorageService;
 
-        public AuthService(HttpClient httpClient, AuthenticationStateProvider authenticationStateProvider, ILocalStorageService localStorageService)
+        public AuthService(OidcHttpClient oidcHttpClient, AuthenticationStateProvider authenticationStateProvider, ILocalStorageService localStorageService)
         {
-            _httpClient = httpClient;
+            _oidcHttpClient = oidcHttpClient;
             _authenticationStateProvider = authenticationStateProvider;
             _localStorageService = localStorageService;
         }
@@ -33,7 +34,7 @@ namespace Demelain.Client.Services
         public async Task<RegisterResult> RegisterAsync(RegisterInputModel model)
         {
             var result =
-                await _httpClient.PostJsonAsync<RegisterResult>("http://localhost:5000/account/register", model);
+                await _oidcHttpClient.PostJsonAsync<RegisterResult>("http://localhost:5000/account/register", model);
 
             return result;
         }
@@ -48,7 +49,7 @@ namespace Demelain.Client.Services
             var loginAsJson = JsonSerializer.Serialize(model);
            
             var response = 
-                await _httpClient.PostAsync("http://localhost:5000/account/login", new StringContent(loginAsJson));
+                await _oidcHttpClient.PostAsync("http://localhost:5000/account/login", new StringContent(loginAsJson));
 
             var loginResult = JsonSerializer.Deserialize<LoginResult>(await response.Content.ReadAsStringAsync());
 
@@ -59,9 +60,9 @@ namespace Demelain.Client.Services
 
             await _localStorageService.SetItemAsync("authToken", loginResult.Token);
             
-            ((DemelainAuthenticationStateProvider) _authenticationStateProvider).MarkUserAuthenticated(model.Username);
+            ((DemelainAuthenticationStateProvider) _authenticationStateProvider).MarkUserAsAuthenticated(model.Username);
             
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", loginResult.Token);
+            _oidcHttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", loginResult.Token);
 
             return loginResult;
         }
@@ -74,9 +75,9 @@ namespace Demelain.Client.Services
         {
             await _localStorageService.RemoveItemAsync("authToken");
             
-            ((DemelainAuthenticationStateProvider) _authenticationStateProvider).MarkUserLoggedOut();
+            ((DemelainAuthenticationStateProvider) _authenticationStateProvider).MarkUserAsLoggedOut();
 
-            _httpClient.DefaultRequestHeaders.Authorization = null;
+            _oidcHttpClient.DefaultRequestHeaders.Authorization = null;
         }
     }
 }
