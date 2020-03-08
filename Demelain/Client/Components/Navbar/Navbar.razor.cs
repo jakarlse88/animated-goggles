@@ -3,18 +3,21 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Sotsera.Blazor.Oidc;
 
-namespace Demelain.Client.Components
+namespace Demelain.Client.Components.Navbar
 {
     public class NavbarBase : ComponentBase
     {
         [Inject] private IJSRuntime JsRuntime { get; set; }
         [Inject] private IUserManager UserManager { get; set; }
+        protected bool ShowSidebar { get; set; } = false;
         protected string NavbarHeading { get; }
 
         public NavbarBase()
         {
             NavbarHeading = "Jon Karlsen";
         }
+
+        protected void ToggleSidebar() => ShowSidebar = !ShowSidebar;
 
         protected async void SignOutHandler() => await UserManager.BeginLogoutAsync(p => p.WithRedirect());
 
@@ -26,6 +29,9 @@ namespace Demelain.Client.Components
                 .InvokeVoidAsync(
                     "linkToPageSection",
                     sectionId);
+            
+            if (ShowSidebar) 
+                ToggleSidebar();
         }
     }
 }
