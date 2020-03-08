@@ -1,5 +1,4 @@
 ﻿@inherits HeroBase
-@using Demelain.Client.Components.Hero.Subcomponents
 
 <section class="py-20 px-20 h-screen flex items-stretch section__hero bg-fixed">
 
@@ -9,18 +8,6 @@
             @StaticText <br />
             <span class="font-mono text-3xl" id="typed"></span>
         </p>
-
-        <div class="full-w flex justify-center my-20">
-
-            <HeroButton OnClick="@ScrollToSection"
-                        ButtonText="Contact Me"
-                        SectionLinkId="#ContactSection" />
-
-            <HeroButton OnClick="@ScrollToSection"
-                        ButtonText="Work"
-                        SectionLinkId="#WorkSection" />
-
-        </div>
 
     </div>
 
