@@ -1,0 +1,53 @@
+﻿@namespace Demelain.Client.Components.Work.Subcomponents
+
+<div class="max-w-sm worksection__card rounded overflow-hidden shadow-lg mx-4">
+
+    <img class="w-full h-48" src="@Image" alt="Sunset in the mountains">
+
+    <div class="px-6 py-4">
+
+        <div class="font-bold text-xl mb-2">@Heading</div>
+
+        <p class="text-gray-700 text-base">
+            @Text
+        </p>
+
+    </div>
+
+    <div class="px-6 py-4">
+
+        <a href="@GitHubProjectLink">
+            <i class="fab fa-github fa-2x"></i>
+        </a>
+
+    </div>
+
+    @if (TagOne != null)
+    {
+        <WorkCardTag TagText="@TagOne"/>
+    }
+
+    @if (TagTwo != null)
+    {
+        <WorkCardTag TagText="@TagTwo"/>
+    }
+
+    @if (TagOne != null)
+    {
+        <WorkCardTag TagText="@TagThree"/>
+    }
+
+
+</div>
+
+@code {
+
+    [Parameter] public string Heading { get; set; }
+    [Parameter] public string Text { get; set; }
+    [Parameter] public string Image { get; set; }
+    [Parameter] public string GitHubProjectLink { get; set; }
+    [Parameter] public string TagOne { get; set; }
+    [Parameter] public string TagTwo { get; set; }
+    [Parameter] public string TagThree { get; set; }
+
+}

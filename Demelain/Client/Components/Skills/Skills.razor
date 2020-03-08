@@ -1,0 +1,21 @@
+﻿@inherits SkillsBase
+@using Demelain.Client.Components.Skills.Subcomponents
+
+<section class="w-screen py-20 px-20 min-h-screen h-auto flex flex-col justify-center items-center" id="SkillSection">
+    
+    <h2 class="text-3xl text-center mb-4">Skills</h2>
+    
+    <div class="h-full flex flex-row flex-wrap justify-center items-center">
+
+        <div class="grid grid-cols-2 grid-rows-3 grid-flow-col grid-flow-row">
+            @for (int i = 0; i < 6; i++)
+            {
+                <SkillCard
+                    Heading="Heading"
+                    Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."/>
+            }
+        </div>
+
+    </div>
+    
+</section>
