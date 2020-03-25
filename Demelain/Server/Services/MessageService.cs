@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.Threading.Tasks;
-using Demelain.Server.Models;
+using Demelain.Server.Models.InputModels;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -14,19 +13,19 @@ namespace Demelain.Server.Services
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public MessageService(IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
+        public MessageService(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
-            _webHostEnvironment = webHostEnvironment;
             _configuration = configuration;
+            _webHostEnvironment = webHostEnvironment;
         }
 
-        public Task<bool> SendMessage(ContactFormDto dto)
+        public void SendMessage(ContactFormInputModel model)
         {
-            if (dto == null ||
-                string.IsNullOrWhiteSpace(dto.Name) ||
-                string.IsNullOrWhiteSpace(dto.Subject) ||
-                string.IsNullOrWhiteSpace(dto.Email) ||
-                string.IsNullOrWhiteSpace(dto.Message))
+            if (model == null ||
+                string.IsNullOrWhiteSpace(model.Name) ||
+                string.IsNullOrWhiteSpace(model.Subject) ||
+                string.IsNullOrWhiteSpace(model.Email) ||
+                string.IsNullOrWhiteSpace(model.Message))
             {
                 throw new ArgumentException("MessageService: the argument or a property thereof was null.");
             }
@@ -41,11 +40,11 @@ namespace Demelain.Server.Services
                 "Webmaster",
                 _configuration["ContactEmail"]));
 
-            mimeMessage.Subject = dto.Subject;
+            mimeMessage.Subject = model.Subject;
 
             mimeMessage.Body = new TextPart("html")
             {
-                Text = FormatMessageBody(dto.Name, dto.Email, dto.Subject, dto.Message)
+                Text = FormatMessageBody(model.Name, model.Email, model.Subject, model.Message)
             };
 
             using (var client = new SmtpClient())
@@ -60,8 +59,6 @@ namespace Demelain.Server.Services
 
                 client.Disconnect(true);
             }
-
-            return Task.FromResult(true);
         }
 
         private string FormatMessageBody(
@@ -81,7 +78,7 @@ namespace Demelain.Server.Services
 
             var builder = new BodyBuilder();
 
-            using (var sourceReader = System.IO.File.OpenText(templatePath))
+            using (var sourceReader = File.OpenText(templatePath))
             {
                 builder.HtmlBody = sourceReader.ReadToEnd();
             }

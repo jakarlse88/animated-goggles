@@ -1,10 +1,16 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 
-// ReSharper disable once CheckNamespace
 namespace Demelain.Server.Repositories
 {
-    public interface IRepositoryBase<T> where T : class
+    public interface IRepositoryBase<T>
     {
-        Task<T> GetByIdAsync(int id);
+        IQueryable<T> FindAll();
+        IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression);
+        void Insert(T entity);
+        void Update(T entity);
+        void Delete(T entity);
+        bool Exists(Expression<Func<T, bool>> expression);
     }
 }

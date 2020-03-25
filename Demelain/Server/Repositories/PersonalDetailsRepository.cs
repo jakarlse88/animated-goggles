@@ -1,16 +1,20 @@
-﻿using Demelain.Server.Data;
-using Demelain.Server.Models.Entities;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Demelain.Server.Data;
+using Demelain.Server.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Demelain.Server.Repositories
 {
-    /// <summary>
-    /// Type wrapper that exposes repository functionality for the
-    /// PersonalDetails entity.
-    /// </summary>
     public class PersonalDetailsRepository : RepositoryBase<PersonalDetails>, IPersonalDetailsRepository
     {
-        public PersonalDetailsRepository(DemelainContext context) : base(context)
+        public PersonalDetailsRepository(ApplicationDbContext context) : base(context)
         {
         }
+
+        public async Task<PersonalDetails> FindById(int id) =>
+            await base.FindByCondition(entity => 
+                    entity.Id == id)
+                .FirstOrDefaultAsync();
     }
 }

@@ -1,11 +1,10 @@
 ﻿using System.Threading.Tasks;
-using Demelain.Server.Models;
+using Demelain.Server.Models.InputModels;
 
-// ReSharper disable once CheckNamespace
 namespace Demelain.Server.Services
 {
     public interface IMessageService
     {
-        Task<bool> SendMessage(ContactFormDto dto);
+        void SendMessage(ContactFormInputModel model);
     }
 }

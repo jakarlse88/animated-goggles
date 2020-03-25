@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Demelain.Server.Models;
+using Demelain.Server.ActionFilters;
+using Demelain.Server.Models.InputModels;
 using Demelain.Server.Services;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -19,22 +20,20 @@ namespace Demelain.Server.Controllers
             _messageService = messageService;
         }
 
-        [EnableCors]
-        [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpPost, EnableCors, ValidateModel]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> PostMessage(ContactFormDto dto)
+        public IActionResult PostMessage(ContactFormInputModel model)
         {
-            if (dto == null)
+            if (model == null)
+            {
                 return BadRequest("You tried to send a message without providing any data.");
+            }
 
-            var success = await _messageService.SendMessage(dto);
+            _messageService.SendMessage(model);
 
-            if (success)
-                return Ok("Message successfully sent.");
-
-            throw new Exception("There was an error sending the message.");
+            return NoContent();
         }
     }
 }

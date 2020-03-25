@@ -1,24 +1,24 @@
 ﻿using System.Threading.Tasks;
-using Demelain.Server.Models.Entities;
+using Demelain.Server.Models;
 using Demelain.Server.Repositories;
 
 namespace Demelain.Server.Services
 {
-    public class PersonalDetailsService : IPersonalDetailsService
+    public class PersonalDetailsService : IPersonalDetailService
     {
-        private readonly IRepositoryWrapper _repositoryWrapper;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public PersonalDetailsService(IRepositoryWrapper repositoryWrapper)
+        public PersonalDetailsService(IUnitOfWork unitOfWork)
         {
-            _repositoryWrapper = repositoryWrapper;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<PersonalDetails> GetByIdAsync(int id)
         {
             var result =
-                await _repositoryWrapper
-                    .PersonalDetails
-                    .GetByIdAsync(id);
+                await _unitOfWork
+                    .PersonalDetailsRepository
+                    .FindById(id);
 
             return result;
         }

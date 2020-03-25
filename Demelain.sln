@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demelain.Server", "Demelain\Server\Demelain.Server.csproj", "{A8C20412-C464-42E3-B121-75077407B89C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demelain.Server", "Demelain\Server\Demelain.Server.csproj", "{26D66086-C635-48FA-B060-850C54879B57}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demelain.Client", "Demelain\Client\Demelain.Client.csproj", "{C7514C9E-524F-4090-8C4A-5BAD72EA342E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demelain.Client", "Demelain\Client\Demelain.Client.csproj", "{33F631F1-48B6-4EEE-8C74-C9C99DE4FF49}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demelain.Shared", "Demelain\Shared\Demelain.Shared.csproj", "{505063A5-8416-4F4C-9A77-6F0ECE763B9B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demelain.AuthServer", "Demelain\Demelain.AuthServer\Demelain.AuthServer.csproj", "{3BB3F3C1-954A-4FD4-B1F2-A037592B62AE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demelain.Shared", "Demelain\Shared\Demelain.Shared.csproj", "{9F69951C-F948-4FB1-BB97-B8B77001D6AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,22 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A8C20412-C464-42E3-B121-75077407B89C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A8C20412-C464-42E3-B121-75077407B89C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A8C20412-C464-42E3-B121-75077407B89C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A8C20412-C464-42E3-B121-75077407B89C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C7514C9E-524F-4090-8C4A-5BAD72EA342E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C7514C9E-524F-4090-8C4A-5BAD72EA342E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C7514C9E-524F-4090-8C4A-5BAD72EA342E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C7514C9E-524F-4090-8C4A-5BAD72EA342E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{505063A5-8416-4F4C-9A77-6F0ECE763B9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{505063A5-8416-4F4C-9A77-6F0ECE763B9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{505063A5-8416-4F4C-9A77-6F0ECE763B9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{505063A5-8416-4F4C-9A77-6F0ECE763B9B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3BB3F3C1-954A-4FD4-B1F2-A037592B62AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3BB3F3C1-954A-4FD4-B1F2-A037592B62AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3BB3F3C1-954A-4FD4-B1F2-A037592B62AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3BB3F3C1-954A-4FD4-B1F2-A037592B62AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26D66086-C635-48FA-B060-850C54879B57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26D66086-C635-48FA-B060-850C54879B57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26D66086-C635-48FA-B060-850C54879B57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26D66086-C635-48FA-B060-850C54879B57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33F631F1-48B6-4EEE-8C74-C9C99DE4FF49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33F631F1-48B6-4EEE-8C74-C9C99DE4FF49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33F631F1-48B6-4EEE-8C74-C9C99DE4FF49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33F631F1-48B6-4EEE-8C74-C9C99DE4FF49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F69951C-F948-4FB1-BB97-B8B77001D6AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F69951C-F948-4FB1-BB97-B8B77001D6AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F69951C-F948-4FB1-BB97-B8B77001D6AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F69951C-F948-4FB1-BB97-B8B77001D6AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

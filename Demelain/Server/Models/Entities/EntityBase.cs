@@ -1,4 +1,4 @@
-﻿namespace Demelain.Server.Models.Entities
+﻿namespace Demelain.Server.Models
 {
     public abstract class EntityBase
     {

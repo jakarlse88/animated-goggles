@@ -1,6 +1,6 @@
-﻿namespace Demelain.Server.Models.Entities
+﻿namespace Demelain.Server.Models
 {
-    public partial class PersonalDetails : EntityBase
+    public class PersonalDetails : EntityBase
     {
         public override int Id { get; set; }
         public string FirstName { get; set; }

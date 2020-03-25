@@ -1,9 +1,10 @@
-﻿using Demelain.Server.Models.Entities;
+﻿using System.Threading.Tasks;
+using Demelain.Server.Models;
 
-// ReSharper disable once CheckNamespace
 namespace Demelain.Server.Repositories
 {
     public interface IPersonalDetailsRepository : IRepositoryBase<PersonalDetails>
     {
+        Task<PersonalDetails> FindById(int id);
     }
 }

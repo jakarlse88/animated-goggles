@@ -3,25 +3,25 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:52747/",
-      "sslPort": 44399
+      "applicationUrl": "http://localhost:64395",
+      "sslPort": 44310
     }
   },
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
-      "launchBrowser": false,
+      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Demelain.Client": {
+    "Demelain": {
       "commandName": "Project",
-      "launchBrowser": false,
+      "launchBrowser": true,
+      "applicationUrl": "https://localhost:5001",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "http://localhost:5002"
+      }
     }
   }
 }
